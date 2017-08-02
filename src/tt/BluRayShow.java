@@ -1,8 +1,8 @@
 package tt;
 
 public class BluRayShow extends BluRay{
-	protected int numeroFaixas;
-	protected String artista;
+	private int numeroFaixas;
+	private String artista;
 	public BluRayShow(double preco, String nomeItem, int duracao,String classificacao, int numeroFaixas, String artista){
 		super(preco, nomeItem, duracao, classificacao);
 		this.numeroFaixas = numeroFaixas;
