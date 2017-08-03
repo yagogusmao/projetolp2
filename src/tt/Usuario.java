@@ -1,18 +1,18 @@
 package tt;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Usuario {
 	private String nome;
 	private String telefone;
 	private String email;
-	private ArrayList<Item> itens;	
+	private ItemController itemcontroller;	
 	
 	public Usuario(String nome, String telefone, String email){
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
-		this.itens = new ArrayList<Item>();
+		this.itemcontroller = new ItemController();
 	}
 
 	public String getNome() {
@@ -39,13 +39,6 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public ArrayList<Item> getItens() {
-		return itens;
-	}
-
-	public void setItens(ArrayList<Item> itens) {
-		this.itens = itens;
-	}
 	
 	@Override
 	public String toString(){
