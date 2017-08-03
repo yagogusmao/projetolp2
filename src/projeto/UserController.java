@@ -22,54 +22,72 @@ public class UserController {
 	public UserController() {
 		this.usuarios = new HashMap<UsuarioId, Usuario>();
 	}
+	
+	/**
+	 * Verificar se usuario existe no conjunto
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 */
+	private void verificaSeExisteUsuario(String nome, String telefone){
+		if(this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario Invalido");
+	}
 
+	private void verificaSeNaoExisteUsuario(String nome, String telefone){
+		if(!this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario Invalido");
+	}
+	
 	public void cadastrarUsuario(String nome, String telefone, String email) {
-		if (!usuarios.containsKey(new UsuarioId(nome, telefone)))
-			usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
-		else
-			throw new IllegalArgumentException("Usuario existente");
-
+		this.verificaSeExisteUsuario(nome, telefone);
+		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
 	}
 
 	public void removerUsuario(String nome, String telefone) {
-		if (usuarios.containsKey(new UsuarioId(nome, telefone)))
-			usuarios.remove(new UsuarioId(nome, telefone));
-		else
-			throw new IllegalArgumentException("Usuario invalido");
+		this.verificaSeNaoExisteUsuario(nome, telefone);
+		this.usuarios.remove(new UsuarioId(nome, telefone));
 	}
 
 	public void atualizarUsuario(String nome, String telefone, String atributo, String valor) {
-		UsuarioId userid = new UsuarioId(nome, telefone);
+		this.verificaSeNaoExisteUsuario(nome, telefone);
 
-		if (usuarios.containsKey(userid)) {
+		Usuario usuario1 = usuarios.get(new UsuarioId(nome, telefone));
+		usuarios.remove(new UsuarioId(nome, telefone));
 
-			Usuario usuario1 = usuarios.get(new UsuarioId(nome, telefone));
-			usuarios.remove(new UsuarioId(nome, telefone));
-
-			if (atributo.toLowerCase().equals("nome")) {
-				
-				usuario1.setNome(valor);
-				usuarios.put(new UsuarioId(valor, telefone), usuario1);
-
-			} else if (atributo.toLowerCase().equals("telefone")) {
-				
-				usuario1.setTelefone(valor);
-				usuarios.put(new UsuarioId(nome, valor), usuario1);
+		if (atributo.toLowerCase().equals("nome")) {
 			
-			} else if (atributo.toLowerCase().equals("email")) {
-				
-				usuario1.setEmail(valor);
-				usuarios.put(new UsuarioId(nome, telefone), usuario1);
+			usuario1.setNome(valor);
+			usuarios.put(new UsuarioId(valor, telefone), usuario1);
+
+		} else if (atributo.toLowerCase().equals("telefone")) {
 			
-			}
+			usuario1.setTelefone(valor);
+			usuarios.put(new UsuarioId(nome, valor), usuario1);
+		
+		} else if (atributo.toLowerCase().equals("email")) {
 			
-		} else
-			throw new IllegalArgumentException("Usuario invalido");
+			usuario1.setEmail(valor);
+			usuarios.put(new UsuarioId(nome, telefone), usuario1);
+		
+		}
 
 	}
 	
 	public boolean existeUsuario(String nome, String telefone){
 		return usuarios.containsKey(new UsuarioId(nome, telefone));
+	}
+	
+	public String listarUsuario(String nome, String telefone){
+		String resposta = null;
+		try{
+			this.verificaSeNaoExisteUsuario(nome, telefone);
+			resposta = this.usuarios.get(new UsuarioId(nome, telefone)).toString();
+		} catch (Exception e){
+			
+		}
+		return resposta;
 	}
 
 	@Override
