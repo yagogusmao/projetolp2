@@ -5,13 +5,34 @@ public class UsuarioId {
 	private String nome;
 	private String telefone;
 	
-	public UsuarioId(String nome, String telefone){
+	/**
+	 * Validando  o nome do usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 */
+	private void valideNome(String nome){
 		
 		if(nome == null || nome.trim().equals(""))
 			throw new IllegalArgumentException("Nome de usuario invalido");
 		
+	}
+
+	/**
+	 * Validando telefone do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 */
+	private void valideTelefone(String telefone){
+		
 		if(telefone == null || telefone.trim().equals(""))
 			throw new IllegalArgumentException("Telefone de usuario invalido");
+	
+	}
+	
+	public UsuarioId(String nome, String telefone){
+		
+		this.valideNome(nome);
+		this.valideTelefone(telefone);
 		
 		this.nome = nome;
 		this.telefone = telefone;

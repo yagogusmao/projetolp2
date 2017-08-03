@@ -8,6 +8,11 @@ public class Usuario {
 	private String email;
 	private ItemController itemcontroller;
 	
+	/**
+	 * Validando  o nome do usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 */
 	private void valideNome(String nome){
 		
 		if(nome == null || nome.trim().equals(""))
@@ -15,6 +20,11 @@ public class Usuario {
 		
 	}
 
+	/**
+	 * Validando telefone do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 */
 	private void valideTelefone(String telefone){
 		
 		if(telefone == null || telefone.trim().equals(""))
@@ -22,6 +32,11 @@ public class Usuario {
 	
 	}
 	
+	/**
+	 * Validando email do usuario
+	 * @param email
+	 * 		Email do usuario
+	 */
 	private void valideEmail(String email){
 	
 		if(email == null || email.trim().equals(""))
