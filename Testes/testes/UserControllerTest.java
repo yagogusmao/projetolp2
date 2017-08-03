@@ -68,8 +68,17 @@ public class UserControllerTest {
 		UserController controle = new UserController();
 		controle.cadastrarUsuario("felipe", "11", "fmota@...");
 		assertTrue(controle.existeUsuario("felipe", "11"));
-		controle.atualizarUsuario("felipe", "11", "nome", "mota");
-		assertTrue(controle.existeUsuario("mota", "11"));
+		controle.atualizarUsuario("felipe", "11", "telefone", "22");
+		assertTrue(controle.existeUsuario("felipe", "22"));
 		assertFalse(controle.existeUsuario("felipe", "11"));
+	}
+	
+	@Test
+	public void cadastroAtualiza3Test(){
+		UserController controle = new UserController();
+		controle.cadastrarUsuario("felipe", "11", "fmota@...");
+		assertTrue(controle.existeUsuario("felipe", "11"));
+		controle.atualizarUsuario("felipe", "11", "email", "felipe.santos");
+		assertTrue(controle.existeUsuario("felipe", "11"));
 	}
 }
