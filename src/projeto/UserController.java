@@ -8,7 +8,7 @@ import java.util.Map;
  * 
  * Controllador de usuario
  * 
- * @author Hugo
+ * @author Hugo, Felipe Mota
  *
  */
 public class UserController {
@@ -23,33 +23,60 @@ public class UserController {
 		this.usuarios = new HashMap<UsuarioId, Usuario>();
 	}
 	
+	/**
+	 * Cadastrar usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 * @param email
+	 * 		Email do usuario
+	 */
 	public void cadastrarUsuario(String nome, String telefone, String email) {
 		
-		if(this.existeUsuario(nome, telefone))
+		if(this.existeUsuario(nome, telefone)) // verificar se usuario ja esta cadastrado
 			throw new IllegalArgumentException("Usuario ja cadastrado");
 		
 		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
 	}
 
+	/**
+	 * Remover usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 */
 	public void removerUsuario(String nome, String telefone) {
 		
-		if(!this.existeUsuario(nome, telefone))
+		if(!this.existeUsuario(nome, telefone)) // verificar se usuario nao foi cadastrado
 			throw new IllegalArgumentException("Usuario invalido");
 		
 		this.usuarios.remove(new UsuarioId(nome, telefone));
 	}
 
+	/**
+	 * Atualizar atributo de usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 * @param atributo
+	 * 		Atributo do usuario que deve ser modificado
+	 * @param valor
+	 * 		Novo valor que o atributo deve receber
+	 */
 	public void atualizarUsuario(String nome, String telefone, String atributo, String valor) {
 		
-		if(!this.existeUsuario(nome, telefone))
+		if(!this.existeUsuario(nome, telefone)) // verificar se usuario existe
 			throw new IllegalArgumentException("Usuario invalido");
 		
-		Usuario usuario = usuarios.get(new UsuarioId(nome, telefone));
-		usuarios.remove(new UsuarioId(nome, telefone));
-		usuario.mudaAtributo(atributo, valor);
-		nome = usuario.getNome();
-		telefone = usuario.getTelefone();
-		usuarios.put(new UsuarioId(nome, telefone), usuario);
+		Usuario usuario = usuarios.get(new UsuarioId(nome, telefone)); // pegando o usuario
+		usuarios.remove(new UsuarioId(nome, telefone)); // removendo o usuario do Map
+		usuario.mudaAtributo(atributo, valor); // alterando o atributo do usuario
+		nome = usuario.getNome(); // atualizando o valor do nome do usuario
+		telefone = usuario.getTelefone(); // atualizando o valor do telefone do usuario
+		usuarios.put(new UsuarioId(nome, telefone), usuario); // inserindo o usuario
 
 	}
 	
