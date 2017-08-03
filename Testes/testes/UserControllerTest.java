@@ -85,9 +85,10 @@ public class UserControllerTest {
 	// Testes envolvendo listagem
 	
 	@Test
-	public void listarUsuario(){
+	public void listarUsuarioTest(){
 		UserController controle = new UserController();
 		controle.cadastrarUsuario("felipe", "11", "fmota@...");
 		assertEquals("felipe, fmota@..., 11", controle.listarUsuario("felipe", "11"));
 	}
+	
 }
