@@ -1,4 +1,4 @@
-package projeto;
+package itens;
 
 public class JogoEletronico extends Item{
 	private String plataforma;

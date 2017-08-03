@@ -1,4 +1,4 @@
-package projeto;
+package itens;
 
 public class BluRaySerie extends BluRay {
 	private String genero;

@@ -2,6 +2,8 @@ package projeto;
 
 import java.util.HashMap;
 
+import itens.Item;
+
 public class ItemController {
 	
 	private HashMap<String, Item> itens;

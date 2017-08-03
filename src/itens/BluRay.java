@@ -1,4 +1,4 @@
-package projeto;
+package itens;
 
 public abstract class BluRay extends Item{
 	protected int duracao;

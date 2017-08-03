@@ -1,4 +1,4 @@
-package projeto;
+package itens;
 
 public abstract class Item {
 	protected double preco;
