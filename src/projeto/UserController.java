@@ -44,25 +44,12 @@ public class UserController {
 		if(!this.existeUsuario(nome, telefone))
 			throw new IllegalArgumentException("Usuario invalido");
 		
-		Usuario usuario1 = usuarios.get(new UsuarioId(nome, telefone));
+		Usuario usuario = usuarios.get(new UsuarioId(nome, telefone));
 		usuarios.remove(new UsuarioId(nome, telefone));
-
-		if (atributo.toLowerCase().equals("nome")) {
-			
-			usuario1.setNome(valor);
-			usuarios.put(new UsuarioId(valor, telefone), usuario1);
-
-		} else if (atributo.toLowerCase().equals("telefone")) {
-			
-			usuario1.setTelefone(valor);
-			usuarios.put(new UsuarioId(nome, valor), usuario1);
-		
-		} else if (atributo.toLowerCase().equals("email")) {
-			
-			usuario1.setEmail(valor);
-			usuarios.put(new UsuarioId(nome, telefone), usuario1);
-		
-		}
+		usuario.mudaAtributo(atributo, valor);
+		nome = usuario.getNome();
+		telefone = usuario.getTelefone();
+		usuarios.put(new UsuarioId(nome, telefone), usuario);
 
 	}
 	

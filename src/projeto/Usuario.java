@@ -102,11 +102,23 @@ public class Usuario {
 	public String getAtributo(String atributo) {
 		if(atributo.toLowerCase().equals("nome"))
 			return this.getNome();
-		if(atributo.toLowerCase().equals("telefone"))
+		else if(atributo.toLowerCase().equals("telefone"))
 			return this.getTelefone();
-		if(atributo.toLowerCase().equals("email"))
+		else if(atributo.toLowerCase().equals("email"))
 			return this.getEmail();
-		throw new IllegalArgumentException("Atributo de usuario invalido");
+		else
+			throw new IllegalArgumentException("Atributo de usuario invalido");
+	}
+
+	public void mudaAtributo(String atributo, String valor) {
+		if(atributo.toLowerCase().equals("nome"))
+			this.setNome(valor);
+		else if(atributo.toLowerCase().equals("telefone"))
+			this.setTelefone(valor);
+		else if(atributo.toLowerCase().equals("email"))
+			this.setEmail(valor);
+		else
+			throw new IllegalArgumentException("Atributo de usuario invalido");	
 	}
 
 }
