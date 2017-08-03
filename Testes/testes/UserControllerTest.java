@@ -81,4 +81,13 @@ public class UserControllerTest {
 		controle.atualizarUsuario("felipe", "11", "email", "felipe.santos");
 		assertTrue(controle.existeUsuario("felipe", "11"));
 	}
+	
+	// Testes envolvendo listagem
+	
+	@Test
+	public void listarUsuario(){
+		UserController controle = new UserController();
+		controle.cadastrarUsuario("felipe", "11", "fmota@...");
+		assertEquals("felipe, fmota@..., 11", controle.listarUsuario("felipe", "11"));
+	}
 }

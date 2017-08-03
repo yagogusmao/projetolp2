@@ -30,24 +30,28 @@ public class UserController {
 	 * @param telefone
 	 * 		Telefone do usuario
 	 */
-	private void verificaUsuario(String nome, String telefone){
-		UsuarioId user = new UsuarioId(nome, telefone);
-		if(!this.usuarios.containsKey(user))
+	private void verificaSeExisteUsuario(String nome, String telefone){
+		if(this.existeUsuario(nome, telefone))
 			throw new IllegalArgumentException("Usuario Invalido");
 	}
 
+	private void verificaSeNaoExisteUsuario(String nome, String telefone){
+		if(!this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario Invalido");
+	}
+	
 	public void cadastrarUsuario(String nome, String telefone, String email) {
-		this.verificaUsuario(nome, telefone);
+		this.verificaSeExisteUsuario(nome, telefone);
 		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
 	}
 
 	public void removerUsuario(String nome, String telefone) {
-		this.verificaUsuario(nome, telefone);
+		this.verificaSeNaoExisteUsuario(nome, telefone);
 		this.usuarios.remove(new UsuarioId(nome, telefone));
 	}
 
 	public void atualizarUsuario(String nome, String telefone, String atributo, String valor) {
-		this.verificaUsuario(nome, telefone);
+		this.verificaSeNaoExisteUsuario(nome, telefone);
 
 		Usuario usuario1 = usuarios.get(new UsuarioId(nome, telefone));
 		usuarios.remove(new UsuarioId(nome, telefone));
@@ -78,7 +82,7 @@ public class UserController {
 	public String listarUsuario(String nome, String telefone){
 		String resposta = null;
 		try{
-			this.verificaUsuario(nome, telefone);
+			this.verificaSeNaoExisteUsuario(nome, telefone);
 			resposta = this.usuarios.get(new UsuarioId(nome, telefone)).toString();
 		} catch (Exception e){
 			
