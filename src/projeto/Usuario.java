@@ -7,8 +7,34 @@ public class Usuario {
 	private String telefone;
 	private String email;
 	private ItemController itemcontroller;
+	
+	private void valideNome(String nome){
+		
+		if(nome == null || nome.trim().equals(""))
+			throw new IllegalArgumentException("Nome de usuario invalido");
+		
+	}
 
+	private void valideTelefone(String telefone){
+		
+		if(telefone == null || telefone.trim().equals(""))
+			throw new IllegalArgumentException("Telefone de usuario invalido");
+	
+	}
+	
+	private void valideEmail(String email){
+	
+		if(email == null || email.trim().equals(""))
+			throw new IllegalArgumentException("Email de usuario invalido");
+	
+	}
+	
 	public Usuario(String nome, String telefone, String email) {
+	
+		this.valideNome(nome);
+		this.valideTelefone(telefone);
+		this.valideEmail(email);
+		
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
@@ -20,6 +46,7 @@ public class Usuario {
 	}
 
 	public void setNome(String nome) {
+		this.valideNome(nome);
 		this.nome = nome;
 	}
 
@@ -28,6 +55,7 @@ public class Usuario {
 	}
 
 	public void setTelefone(String telefone) {
+		this.valideTelefone(telefone);
 		this.telefone = telefone;
 	}
 
@@ -36,6 +64,7 @@ public class Usuario {
 	}
 
 	public void setEmail(String email) {
+		this.valideEmail(email);
 		this.email = email;
 	}
 

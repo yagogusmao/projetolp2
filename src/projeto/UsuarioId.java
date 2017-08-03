@@ -6,6 +6,13 @@ public class UsuarioId {
 	private String telefone;
 	
 	public UsuarioId(String nome, String telefone){
+		
+		if(nome == null || nome.trim().equals(""))
+			throw new IllegalArgumentException("Nome de usuario invalido");
+		
+		if(telefone == null || telefone.trim().equals(""))
+			throw new IllegalArgumentException("Telefone de usuario invalido");
+		
 		this.nome = nome;
 		this.telefone = telefone;
 	}
