@@ -8,7 +8,7 @@ import java.util.Map;
  * 
  * Controllador de usuario
  * 
- * @author Hugo
+ * @author Hugo, Felipe Mota
  *
  */
 public class UserController {
@@ -24,54 +24,59 @@ public class UserController {
 	}
 	
 	/**
-	 * Verificar se usuario existe no conjunto
+	 * Cadastrar usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 * @param email
+	 * 		Email do usuario
+	 */
+	public void cadastrarUsuario(String nome, String telefone, String email) {
+		
+		if(this.existeUsuario(nome, telefone)) // verificar se usuario ja esta cadastrado
+			throw new IllegalArgumentException("Usuario ja cadastrado");
+		
+		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
+	}
+
+	/**
+	 * Remover usuario
 	 * @param nome
 	 * 		Nome do usuario
 	 * @param telefone
 	 * 		Telefone do usuario
 	 */
-	private void verificaSeExisteUsuario(String nome, String telefone){
-		if(this.existeUsuario(nome, telefone))
-			throw new IllegalArgumentException("Usuario Invalido");
-	}
-
-	private void verificaSeNaoExisteUsuario(String nome, String telefone){
-		if(!this.existeUsuario(nome, telefone))
-			throw new IllegalArgumentException("Usuario Invalido");
-	}
-	
-	public void cadastrarUsuario(String nome, String telefone, String email) {
-		this.verificaSeExisteUsuario(nome, telefone);
-		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
-	}
-
 	public void removerUsuario(String nome, String telefone) {
-		this.verificaSeNaoExisteUsuario(nome, telefone);
+		
+		if(!this.existeUsuario(nome, telefone)) // verificar se usuario nao foi cadastrado
+			throw new IllegalArgumentException("Usuario invalido");
+		
 		this.usuarios.remove(new UsuarioId(nome, telefone));
 	}
 
+	/**
+	 * Atualizar atributo de usuario
+	 * @param nome
+	 * 		Nome do usuario
+	 * @param telefone
+	 * 		Telefone do usuario
+	 * @param atributo
+	 * 		Atributo do usuario que deve ser modificado
+	 * @param valor
+	 * 		Novo valor que o atributo deve receber
+	 */
 	public void atualizarUsuario(String nome, String telefone, String atributo, String valor) {
-		this.verificaSeNaoExisteUsuario(nome, telefone);
-
-		Usuario usuario1 = usuarios.get(new UsuarioId(nome, telefone));
-		usuarios.remove(new UsuarioId(nome, telefone));
-
-		if (atributo.toLowerCase().equals("nome")) {
-			
-			usuario1.setNome(valor);
-			usuarios.put(new UsuarioId(valor, telefone), usuario1);
-
-		} else if (atributo.toLowerCase().equals("telefone")) {
-			
-			usuario1.setTelefone(valor);
-			usuarios.put(new UsuarioId(nome, valor), usuario1);
 		
-		} else if (atributo.toLowerCase().equals("email")) {
-			
-			usuario1.setEmail(valor);
-			usuarios.put(new UsuarioId(nome, telefone), usuario1);
+		if(!this.existeUsuario(nome, telefone)) // verificar se usuario existe
+			throw new IllegalArgumentException("Usuario invalido");
 		
-		}
+		Usuario usuario = usuarios.get(new UsuarioId(nome, telefone)); // pegando o usuario
+		usuarios.remove(new UsuarioId(nome, telefone)); // removendo o usuario do Map
+		usuario.mudaAtributo(atributo, valor); // alterando o atributo do usuario
+		nome = usuario.getNome(); // atualizando o valor do nome do usuario
+		telefone = usuario.getTelefone(); // atualizando o valor do telefone do usuario
+		usuarios.put(new UsuarioId(nome, telefone), usuario); // inserindo o usuario
 
 	}
 	
@@ -80,23 +85,24 @@ public class UserController {
 	}
 	
 	public String listarUsuario(String nome, String telefone){
-		String resposta = null;
-		try{
-			this.verificaSeNaoExisteUsuario(nome, telefone);
-			resposta = this.usuarios.get(new UsuarioId(nome, telefone)).toString();
-		} catch (Exception e){
-			
-		}
-		return resposta;
+		if(!this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario invalido");
+		return this.usuarios.get(new UsuarioId(nome, telefone)).toString();
 	}
 
 	@Override
 	public String toString() {
 		String str = "";
 		for (UsuarioId usuarioid : usuarios.keySet()) {
-			str += usuarios.get(usuarioid).toString() + "\n";
+			str += usuarios.get(usuarioid).toString() + System.lineSeparator();
 		}
 		return str;
+	}
+
+	public String getInfoUsuario(String nome, String telefone, String atributo) {
+		if(!this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario invalido");
+		return this.usuarios.get(new UsuarioId(nome, telefone)).getAtributo(atributo);
 	}
 
 }

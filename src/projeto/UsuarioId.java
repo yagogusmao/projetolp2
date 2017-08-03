@@ -1,5 +1,10 @@
 package projeto;
 
+/**
+ * Identificador para usuario
+ * 
+ * @author Felipe Mota
+ */
 public class UsuarioId {
 
 	private String nome;
