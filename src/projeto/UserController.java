@@ -6,7 +6,7 @@ import java.util.Map;
 
 /**
  * 
- * Controllador de usuario
+ * Controlador de usuario
  * 
  * @author Hugo, Felipe Mota
  *
