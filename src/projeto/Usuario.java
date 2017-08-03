@@ -1,4 +1,4 @@
-package tt;
+package projeto;
 
 import java.util.HashMap;
 
@@ -6,9 +6,9 @@ public class Usuario {
 	private String nome;
 	private String telefone;
 	private String email;
-	private ItemController itemcontroller;	
-	
-	public Usuario(String nome, String telefone, String email){
+	private ItemController itemcontroller;
+
+	public Usuario(String nome, String telefone, String email) {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
@@ -39,11 +39,9 @@ public class Usuario {
 		this.email = email;
 	}
 
-	
 	@Override
-	public String toString(){
+	public String toString() {
 		return nome + ", " + email + ", " + telefone;
 	}
-	
-	
+
 }

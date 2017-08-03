@@ -1,4 +1,4 @@
-package tt;
+package projeto;
 
 public class BluRayShow extends BluRay{
 	private int numeroFaixas;
