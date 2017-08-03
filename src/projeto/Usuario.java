@@ -2,7 +2,18 @@ package projeto;
 
 import java.util.HashMap;
 
+/**
+ * Usuario 
+ * representado por :
+ * 		Nome
+ * 		Telefone
+ * 		Email
+ * 		Conjunto de itens;
+ * @author Hugo
+ * 
+ */
 public class Usuario {
+	
 	private String nome;
 	private String telefone;
 	private String email;
@@ -86,6 +97,16 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return nome + ", " + email + ", " + telefone;
+	}
+
+	public String getAtributo(String atributo) {
+		if(atributo.toLowerCase().equals("nome"))
+			return this.getNome();
+		if(atributo.toLowerCase().equals("telefone"))
+			return this.getTelefone();
+		if(atributo.toLowerCase().equals("email"))
+			return this.getEmail();
+		throw new IllegalArgumentException("Atributo de usuario invalido");
 	}
 
 }
