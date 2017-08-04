@@ -6,8 +6,8 @@ public class JogoTabuleiro extends Item{
 
 	private ArrayList<String> pecasPerdidas;
 
-	public JogoTabuleiro(double preco, String nome){
-		super(preco, nome);
+	public JogoTabuleiro(String nome, double preco){
+		super(nome, preco);
 		this.pecasPerdidas = new ArrayList<String>();
 	}
 	
