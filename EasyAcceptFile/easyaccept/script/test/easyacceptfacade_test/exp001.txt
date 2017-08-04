@@ -1,0 +1,6 @@
+Test file: src\easyaccept\script\test\script1.txt | Passed Tests: 0 | Not Passed Tests: 0
+
+Test file: src\easyaccept\script\test\script5.txt | Passed Tests: 2 | Not Passed Tests: 0
+
+Test file: src\easyaccept\script\test\script6.txt | Passed Tests: 0 | Not Passed Tests: 2
+
