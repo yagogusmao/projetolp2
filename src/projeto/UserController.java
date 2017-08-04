@@ -3,13 +3,6 @@ package projeto;
 import java.util.HashMap;
 import java.util.Map;
 
-import itens.BluRayFilme;
-import itens.BluRaySerie;
-import itens.BluRayShow;
-import itens.Item;
-import itens.JogoEletronico;
-import itens.JogoTabuleiro;
-
 /**
  * 
  * Controlador de usuario
@@ -27,6 +20,16 @@ public class UserController {
 	public UserController() {
 		this.usuarios = new HashMap<UsuarioId, Usuario>();
 	}
+	
+	private void verificaUsuarioInvalido(String nome, String telefone){
+		if (!this.existeUsuario(nome, telefone))
+			throw new IllegalArgumentException("Usuario invalido");
+	}
+	
+	private void verificaUsuarioJaCadastrado(String nome, String telefone){
+		if (this.existeUsuario(nome, telefone)) 
+			throw new IllegalArgumentException("Usuario ja cadastrado");
+	}
 
 	/**
 	 * Cadastrar usuario
@@ -40,10 +43,7 @@ public class UserController {
 	 */
 	public void cadastrarUsuario(String nome, String telefone, String email) {
 
-		if (this.existeUsuario(nome, telefone)) // verificar se usuario ja esta
-												// cadastrado
-			throw new IllegalArgumentException("Usuario ja cadastrado");
-
+		this.verificaUsuarioJaCadastrado(nome, telefone);
 		this.usuarios.put(new UsuarioId(nome, telefone), new Usuario(nome, telefone, email));
 	}
 
@@ -57,9 +57,7 @@ public class UserController {
 	 */
 	public void removerUsuario(String nome, String telefone) {
 
-		if (!this.existeUsuario(nome, telefone)) // verificar se usuario nao foi
-													// cadastrado
-			throw new IllegalArgumentException("Usuario invalido");
+		this.verificaUsuarioInvalido(nome, telefone);
 
 		this.usuarios.remove(new UsuarioId(nome, telefone));
 	}
@@ -78,8 +76,7 @@ public class UserController {
 	 */
 	public void atualizarUsuario(String nome, String telefone, String atributo, String valor) {
 
-		if (!this.existeUsuario(nome, telefone)) // verificar se usuario existe
-			throw new IllegalArgumentException("Usuario invalido");
+		this.verificaUsuarioInvalido(nome, telefone);
 
 		Usuario usuario = usuarios.get(new UsuarioId(nome, telefone)); // pegando
 																		// o
@@ -101,8 +98,9 @@ public class UserController {
 	}
 
 	public String listarUsuario(String nome, String telefone) {
-		if (!this.existeUsuario(nome, telefone))
-			throw new IllegalArgumentException("Usuario invalido");
+		
+		this.verificaUsuarioInvalido(nome, telefone);
+		
 		return this.usuarios.get(new UsuarioId(nome, telefone)).toString();
 	}
 
@@ -116,107 +114,77 @@ public class UserController {
 	}
 
 	public String getInfoUsuario(String nome, String telefone, String atributo) {
-		if (!this.existeUsuario(nome, telefone))
-			throw new IllegalArgumentException("Usuario invalido");
+		
+		this.verificaUsuarioInvalido(nome, telefone);
+		
 		return this.usuarios.get(new UsuarioId(nome, telefone)).getAtributo(atributo);
 	}
 
-	public boolean cadastrarEletronico(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco,
+	public void cadastrarEletronico(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco,
 			String plataforma) {
-		if (preco < 0){
-			throw new IllegalArgumentException("Preco invalido");
-		}
-		if (!existeUsuario(nomeUsuario, telefoneUsuario)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastraItem(new JogoEletronico(preco, nomeItem, plataforma));
 		
-
+		this.verificaUsuarioInvalido(nomeUsuario, telefoneUsuario);
+		this.usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastrarEletronico(nomeItem, preco, plataforma);
 	}
 
-	public boolean cadastrarTabuleiro(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco) {
-		if (preco < 0){
-			throw new IllegalArgumentException("Preco invalido");
-		}
-		if (!existeUsuario(nomeUsuario, telefoneUsuario)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastraItem(new JogoTabuleiro(preco, nomeItem));
+	public void cadastrarTabuleiro(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco) {
 		
+		this.verificaUsuarioInvalido(nomeUsuario, telefoneUsuario);
+		
+		this.usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastrarTabuleiro(nomeItem, preco);
 	}
 
-	public boolean cadastrarBluRaySerie(String nomeUsuario, String telefoneUsuario, double preco, String nomeItem,
+	public void cadastrarBluRaySerie(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco,
 			int duracao, String classificacao, String genero, int temporada) {
-		if (preco < 0){
-			throw new IllegalArgumentException("Preco invalido");
-		}
-		if (!existeUsuario(nomeUsuario, telefoneUsuario)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-
-		return usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastraItem(new BluRaySerie(preco, nomeItem, duracao, classificacao, genero, temporada));
 		
+		this.verificaUsuarioInvalido(nomeUsuario, telefoneUsuario);
 
+		this.usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastrarBluRaySerie(nomeItem, preco, duracao, classificacao, genero, temporada);
 	}
 
-	public boolean cadastrarBluRayShow(String nomeUsuario, String telefoneUsuario, double preco, String nomeItem,
+	public void cadastrarBluRayShow(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco,
 			int duracao, String classificacao, int numeroFaixas, String artista) {
-		if (preco < 0){
-			throw new IllegalArgumentException("Preco invalido");
-		}
-		if (!existeUsuario(nomeUsuario, telefoneUsuario)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastraItem(new BluRayShow(preco, nomeItem, duracao, classificacao, numeroFaixas, artista));
 		
-
+		this.verificaUsuarioInvalido(nomeUsuario, telefoneUsuario);
+		
+		this.usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastrarBluRayShow(nomeItem, preco, duracao, classificacao, numeroFaixas, artista);
 	}
 
-	public boolean cadastrarBluRayFilme(String nomeUsuario, String telefoneUsuario, double preco, String nomeItem,
+	public void cadastrarBluRayFilme(String nomeUsuario, String telefoneUsuario, String nomeItem, double preco,
 			int duracao, String classificacao, String genero, int anoLancamento) {
-		if (preco < 0){
-			throw new IllegalArgumentException("Preco invalido");
-		}
-		if (!existeUsuario(nomeUsuario, telefoneUsuario)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastraItem(new BluRayFilme(preco, nomeItem, duracao, classificacao, genero, anoLancamento));
 		
-
+		this.verificaUsuarioInvalido(nomeUsuario, telefoneUsuario);
+	
+		this.usuarios.get(new UsuarioId(nomeUsuario, telefoneUsuario)).cadastrarBluRayFilme(nomeItem, preco, duracao, classificacao, genero, anoLancamento);
+	
 	}
 
 	public String getInfoItem(String nome, String telefone, String nomeItem, String atributo) {
-		if (!existeUsuario(nome, telefone)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
+		
+		this.verificaUsuarioInvalido(nome, telefone);
+		
 		return usuarios.get(new UsuarioId(nome, telefone)).getInfoItem(nomeItem, atributo);
-	
 	}
 	
-	public boolean adicionarPecaPerdida(String nome, String telefone, String nomeItem, String peca){
-		if (!existeUsuario(nome, telefone)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nome, telefone)).adicionarPecaPerdida(nomeItem, peca);
+	public void adicionarPecaPerdida(String nome, String telefone, String nomeItem, String peca){
 		
+		this.verificaUsuarioInvalido(nome, telefone);
+		
+		usuarios.get(new UsuarioId(nome, telefone)).adicionarPecaPerdida(nomeItem, peca);
 	}
 
-	public boolean removerItem(String nome, String telefone, String nomeItem) {
+	public void removerItem(String nome, String telefone, String nomeItem) {
 		
-		if (!existeUsuario(nome, telefone)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		return usuarios.get(new UsuarioId(nome, telefone)).removerItem(nomeItem);
+		this.verificaUsuarioInvalido(nome, telefone);
 		
-		
+		usuarios.get(new UsuarioId(nome, telefone)).removerItem(nomeItem);	
 	}
 
 	public void atualizarItem(String nome, String telefone, String nomeItem, String atributo, String valor) {
-		if (!existeUsuario(nome, telefone)){
-			throw new IllegalArgumentException("Usuario invalido");
-		}
-		usuarios.get(new UsuarioId(nome, telefone)).atualizarItem(nomeItem, atributo, valor);
 		
+		this.verificaUsuarioInvalido(nome, telefone);
+		
+		usuarios.get(new UsuarioId(nome, telefone)).atualizarItem(nomeItem, atributo, valor);
 	}
 	
 	

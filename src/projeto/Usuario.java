@@ -3,48 +3,49 @@ package projeto;
 
 import java.util.HashMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import itens.BluRayFilme;
+import itens.BluRaySerie;
+import itens.BluRayShow;
 import itens.Item;
+import itens.JogoEletronico;
 import itens.JogoTabuleiro;
 
 /**
- * Usuario 
- * representado por :
- * 		Nome
- * 		Telefone
- * 		Email
- * 		Conjunto de itens;
+ * Usuario representado por : Nome Telefone Email Conjunto de itens;
+ * 
  * @author Hugo
  * 
  */
 public class Usuario {
-	
+
 	private String nome;
 	private String telefone;
 	private String email;
 	private Map<String, Item> itens;
+
+	private void verificaSeExisteItem(String nomeItem){
+		if(!this.existeItem(nomeItem))
+			throw new IllegalArgumentException("Item nao encontrado");
+	}
 	
 	public Usuario(String nome, String telefone, String email) {
-		
+
 		this.valideNome(nome);
 		this.valideTelefone(telefone);
 		this.valideEmail(email);
-		
+
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.itens = new HashMap<String, Item>();
 	}
-	
-	public boolean cadastraItem(Item item){
+
+	public void cadastraItem(Item item) {
 		itens.put(item.getNome(), item);
-		return true;
-			
-		
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,41 +78,43 @@ public class Usuario {
 	}
 
 	/**
-	 * Validando  o nome do usuario
+	 * Validando o nome do usuario
+	 * 
 	 * @param nome
-	 * 		Nome do usuario
+	 *            Nome do usuario
 	 */
-	private void valideNome(String nome){
-		
-		if(nome == null || nome.trim().equals(""))
+	private void valideNome(String nome) {
+
+		if (nome == null || nome.trim().equals(""))
 			throw new IllegalArgumentException("Nome de usuario invalido");
-		
+
 	}
 
 	/**
 	 * Validando telefone do usuario
+	 * 
 	 * @param telefone
-	 * 		Telefone do usuario
+	 *            Telefone do usuario
 	 */
-	private void valideTelefone(String telefone){
-		
-		if(telefone == null || telefone.trim().equals(""))
+	private void valideTelefone(String telefone) {
+
+		if (telefone == null || telefone.trim().equals(""))
 			throw new IllegalArgumentException("Telefone de usuario invalido");
-	
+
 	}
-	
+
 	/**
 	 * Validando email do usuario
+	 * 
 	 * @param email
-	 * 		Email do usuario
+	 *            Email do usuario
 	 */
-	private void valideEmail(String email){
-	
-		if(email == null || email.trim().equals(""))
+	private void valideEmail(String email) {
+
+		if (email == null || email.trim().equals(""))
 			throw new IllegalArgumentException("Email de usuario invalido");
-	
+
 	}
-	
 
 	public String getNome() {
 		return nome;
@@ -144,88 +147,89 @@ public class Usuario {
 	public String toString() {
 		return nome + ", " + email + ", " + telefone;
 	}
+	
+	public boolean existeItem(String nomeItem){
+		return this.itens.containsKey(nomeItem);
+	}
 
 	public String getAtributo(String atributo) {
-		if(atributo.toLowerCase().equals("nome"))
+		if (atributo.toLowerCase().equals("nome"))
 			return this.getNome();
-		else if(atributo.toLowerCase().equals("telefone"))
+		else if (atributo.toLowerCase().equals("telefone"))
 			return this.getTelefone();
-		else if(atributo.toLowerCase().equals("email"))
+		else if (atributo.toLowerCase().equals("email"))
 			return this.getEmail();
 		else
 			throw new IllegalArgumentException("Atributo de usuario invalido");
 	}
 
 	public void mudaAtributo(String atributo, String valor) {
-		if(atributo.toLowerCase().equals("nome"))
+		if (atributo.toLowerCase().equals("nome"))
 			this.setNome(valor);
-		else if(atributo.toLowerCase().equals("telefone"))
+		else if (atributo.toLowerCase().equals("telefone"))
 			this.setTelefone(valor);
-		else if(atributo.toLowerCase().equals("email"))
+		else if (atributo.toLowerCase().equals("email"))
 			this.setEmail(valor);
 		else
-			throw new IllegalArgumentException("Atributo de usuario invalido");	
+			throw new IllegalArgumentException("Atributo de usuario invalido");
 	}
 
 	public String getInfoItem(String nomeItem, String atributo) {
-		Item item = itens.get(nomeItem);
-		if(!(itens.containsKey(nomeItem))){
-			throw new IllegalArgumentException("Item nao encontrado");
-		}
-		if(atributo.toLowerCase().equals("preco")){
-			return "" + item.getPreco(); 
-		}
-		else if(atributo.toLowerCase().equals("nome")){
-			return "" + nomeItem;
-		}
-		else
-			throw new IllegalArgumentException("Atributo Invalido");
 		
-		
+		this.verificaSeExisteItem(nomeItem);
+		return this.itens.get(nomeItem).getAtributo(atributo);
 	}
 
 	public boolean adicionarPecaPerdida(String nomeItem, String peca) {
-		if(!itens.containsKey(nomeItem)){
-			throw new IllegalArgumentException("Item nao encontrado");
-		}
-		if (!(itens.get(nomeItem) instanceof JogoTabuleiro)){
+		
+		this.verificaSeExisteItem(nomeItem);
+		
+		if (!(itens.get(nomeItem) instanceof JogoTabuleiro)) { // WTF hugo ???
 			throw new IllegalArgumentException("Item selecionado nao e jogo de tabuleiro");
 		}
 		JogoTabuleiro item = (JogoTabuleiro) itens.get(nomeItem);
 		return item.adicionarPecaPerdida(peca);
 	}
 
-	public boolean removerItem(String nomeItem) {
-		if(!itens.containsKey(nomeItem)){
-			throw new IllegalArgumentException("Item nao encontrado");
-		}
+	public void removerItem(String nomeItem) {
+		this.verificaSeExisteItem(nomeItem);
 		itens.remove(nomeItem);
-		return true;
-		
 	}
-	
 
 	public void atualizarItem(String nomeItem, String atributo, String valor) {
-		if(!itens.containsKey(nomeItem)){
-			throw new IllegalArgumentException("Item nao encontrado");
-		}
-		if(atributo.toLowerCase().equals("preco")){
-			double valor2 = Double.parseDouble(valor);
-			if (valor2 < 0){
-				throw new IllegalArgumentException("Preco invalido");
-			}
-			itens.get(nomeItem).setPreco(valor2);
-		}
-		else if(atributo.toLowerCase().equals("nome")){
-			Item item = itens.get(nomeItem);
-			item.setNome(valor);
-			itens.remove(nomeItem);
-			itens.put(valor, item);
-		}
-		else 
-			throw new IllegalArgumentException("Argumento invalido");
+		this.verificaSeExisteItem(nomeItem);
+		Item item = this.itens.get(nomeItem);
+		this.itens.remove(nomeItem);
+		item.mudaAtributo(atributo, valor);
+		nomeItem = item.getNome();
+		this.itens.put(nomeItem, item);
 	}
-	
-	
+
+	public void cadastrarEletronico(String nomeItem, double preco, String plataforma) {
+		this.itens.put(nomeItem, new JogoEletronico(nomeItem, preco, plataforma));
+		
+	}
+
+	public void cadastrarTabuleiro(String nomeItem, double preco) {
+		this.itens.put(nomeItem, new JogoTabuleiro(nomeItem, preco));
+	}
+
+	public void cadastrarBluRaySerie(String nomeItem, double preco, int duracao, String classificacao, String genero,
+			int temporada) {
+		this.itens.put(nomeItem, new BluRaySerie(nomeItem, preco, duracao, classificacao, genero, temporada));
+		
+	}
+
+	public void cadastrarBluRayShow(String nomeItem, double preco, int duracao, String classificacao, int numeroFaixas,
+			String artista) {
+		this.itens.put(nomeItem, new BluRayShow(nomeItem, preco, duracao, classificacao, numeroFaixas, artista));
+		
+	}
+
+	public void cadastrarBluRayFilme(String nomeItem, double preco, int duracao, String classificacao, String genero,
+			int anoLancamento) {
+		this.itens.put(nomeItem, new BluRayFilme(nomeItem, preco, duracao, classificacao, genero, anoLancamento));
+		
+	}
 
 }

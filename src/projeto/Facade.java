@@ -47,19 +47,19 @@ public class Facade {
 
 	public void cadastrarBluRayFilme(String nome, String telefone, String nomeItem, double preco, int duracao,
 			String genero, String classificacao, int anoLancamento) {
-		this.controladorDeUsuarios.cadastrarBluRayFilme(nome, telefone, preco, nomeItem, duracao, classificacao, genero,
+		this.controladorDeUsuarios.cadastrarBluRayFilme(nome, telefone, nomeItem, preco, duracao, classificacao, genero,
 				anoLancamento);
 	}
 
 	public void cadastrarBluRayShow(String nome, String telefone, String nomeItem, double preco, int duracao,
 			int numeroFaixas, String artista, String classificacao) {
-		this.controladorDeUsuarios.cadastrarBluRayShow(nome, telefone, preco, nomeItem, duracao, classificacao,
+		this.controladorDeUsuarios.cadastrarBluRayShow(nome, telefone, nomeItem, preco, duracao, classificacao,
 				numeroFaixas, artista);
 	}
 
 	public void cadastrarBluRaySerie(String nome, String telefone, String nomeItem, double preco, String descricao,
 			int duracao, String classificacao, String genero, int temporada) {
-		this.controladorDeUsuarios.cadastrarBluRaySerie(nome, telefone, preco, nomeItem, duracao, classificacao, genero,
+		this.controladorDeUsuarios.cadastrarBluRaySerie(nome, telefone, nomeItem, preco, duracao, classificacao, genero,
 				temporada);
 	}
 
