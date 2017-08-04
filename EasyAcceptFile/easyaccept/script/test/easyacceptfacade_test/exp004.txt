@@ -1,0 +1,3 @@
+FAILURES:
+   At line 1:An Exception
+   At line 2: Unknown command: qwerty

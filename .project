@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>easyaccept.jar</name>
-			<type>1</type>
-			<location>/Users/felipemota/Downloads/easyaccept.jar</location>
-		</link>
-	</linkedResources>
 </projectDescription>
