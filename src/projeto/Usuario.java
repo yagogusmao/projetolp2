@@ -1,6 +1,13 @@
+
 package projeto;
 
 import java.util.HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import itens.Item;
+import itens.JogoTabuleiro;
 
 /**
  * Usuario 
@@ -17,8 +24,58 @@ public class Usuario {
 	private String nome;
 	private String telefone;
 	private String email;
-	private ItemController itemcontroller;
+	private Map<String, Item> itens;
 	
+	public Usuario(String nome, String telefone, String email) {
+		
+		this.valideNome(nome);
+		this.valideTelefone(telefone);
+		this.valideEmail(email);
+		
+		this.nome = nome;
+		this.telefone = telefone;
+		this.email = email;
+		this.itens = new HashMap<String, Item>();
+	}
+	
+	public boolean cadastraItem(Item item){
+		itens.put(item.getNome(), item);
+		return true;
+			
+		
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (telefone == null) {
+			if (other.telefone != null)
+				return false;
+		} else if (!telefone.equals(other.telefone))
+			return false;
+		return true;
+	}
+
 	/**
 	 * Validando  o nome do usuario
 	 * @param nome
@@ -55,17 +112,6 @@ public class Usuario {
 	
 	}
 	
-	public Usuario(String nome, String telefone, String email) {
-	
-		this.valideNome(nome);
-		this.valideTelefone(telefone);
-		this.valideEmail(email);
-		
-		this.nome = nome;
-		this.telefone = telefone;
-		this.email = email;
-		this.itemcontroller = new ItemController();
-	}
 
 	public String getNome() {
 		return nome;
@@ -120,5 +166,66 @@ public class Usuario {
 		else
 			throw new IllegalArgumentException("Atributo de usuario invalido");	
 	}
+
+	public String getInfoItem(String nomeItem, String atributo) {
+		Item item = itens.get(nomeItem);
+		if(!(itens.containsKey(nomeItem))){
+			throw new IllegalArgumentException("Item nao encontrado");
+		}
+		if(atributo.toLowerCase().equals("preco")){
+			return "" + item.getPreco(); 
+		}
+		else if(atributo.toLowerCase().equals("nome")){
+			return "" + nomeItem;
+		}
+		else
+			throw new IllegalArgumentException("Atributo Invalido");
+		
+		
+	}
+
+	public boolean adicionarPecaPerdida(String nomeItem, String peca) {
+		if(!itens.containsKey(nomeItem)){
+			throw new IllegalArgumentException("Item nao encontrado");
+		}
+		if (!(itens.get(nomeItem) instanceof JogoTabuleiro)){
+			throw new IllegalArgumentException("Item selecionado nao e jogo de tabuleiro");
+		}
+		JogoTabuleiro item = (JogoTabuleiro) itens.get(nomeItem);
+		return item.adicionarPecaPerdida(peca);
+	}
+
+	public boolean removerItem(String nomeItem) {
+		if(!itens.containsKey(nomeItem)){
+			throw new IllegalArgumentException("Item nao encontrado");
+		}
+		itens.remove(nomeItem);
+		return true;
+		
+	}
+	
+
+	public void atualizarItem(String nomeItem, String atributo, String valor) {
+		if(!itens.containsKey(nomeItem)){
+			throw new IllegalArgumentException("Item nao encontrado");
+		}
+		if(atributo.toLowerCase().equals("preco")){
+			double valor2 = Double.parseDouble(valor);
+			if (valor2 < 0){
+				throw new IllegalArgumentException("Preco invalido");
+			}
+			itens.get(nomeItem).setPreco(valor2);
+		}
+		else if(atributo.toLowerCase().equals("nome")){
+			Item item = itens.get(nomeItem);
+			item.setNome(valor);
+			itens.remove(nomeItem);
+			itens.put(valor, item);
+		}
+		else 
+			throw new IllegalArgumentException("Argumento invalido");
+	}
+	
+	
 
 }
