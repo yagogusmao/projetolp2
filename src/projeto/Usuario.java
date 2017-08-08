@@ -2,7 +2,6 @@
 package projeto;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import itens.BluRayFilme;
@@ -24,6 +23,7 @@ public class Usuario {
 	private String telefone;
 	private String email;
 	private Map<String, Item> itens;
+	private Map<EmprestimoId,Emprestimo> emprestimos;
 
 	private void verificaSeExisteItem(String nomeItem){
 		if(!this.existeItem(nomeItem))
@@ -40,6 +40,7 @@ public class Usuario {
 		this.telefone = telefone;
 		this.email = email;
 		this.itens = new HashMap<String, Item>();
+		this.emprestimos = new HashMap<EmprestimoId,Emprestimo>();
 	}
 
 	public void cadastraItem(Item item) {
@@ -230,6 +231,47 @@ public class Usuario {
 			int anoLancamento) {
 		this.itens.put(nomeItem, new BluRayFilme(nomeItem, preco, duracao, classificacao, genero, anoLancamento));
 		
+	}
+
+	public void registrarEmprestimo(String nomeDono, String telefoneDono, String nomeRequerente,
+			String telefoneRequerente, String nomeItem, String dataEmprestimo, int periodo) {
+		
+		if(nomeDono.equals(this.nome) && telefone.equals(this.telefone))
+			if(!existeItem(nomeItem))
+				throw new NullPointerException("Item nao encontrado");
+		
+		if(nomeDono.equals(this.nome) && telefone.equals(this.telefone))
+			if(!itens.get(nomeItem).getIsEmprestado())
+				emprestimos.put(new EmprestimoId(nomeDono, telefoneDono,
+					nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo), new Emprestimo(nomeDono, telefoneDono,
+					nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo, periodo));
+			else
+				throw new IllegalStateException("Item emprestado no momento");
+		else
+			emprestimos.put(new EmprestimoId(nomeDono, telefoneDono,
+					nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo), new Emprestimo(nomeDono, telefoneDono,
+					nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo, periodo));
+	}
+	
+	public void mudaEstadoItem(String nomeItem){
+		if(existeItem(nomeItem))
+			this.itens.get(nomeItem).setIsEmprestado(!this.itens.get(nomeItem).getIsEmprestado());
+	}
+
+	public void devolverItem(String nomeDono, String telefoneDono, String nomeRequerente, String telefoneRequerente,
+			String nomeItem, String dataEmprestimo, String dataDevolucao) {
+		
+		if(!emprestimos.containsKey(new EmprestimoId(nomeDono, telefoneDono,
+				nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo)))
+			throw new IllegalStateException("Emprestimo nao encontrado");
+
+				
+		
+		if(nomeDono.equals(this.nome) && telefone.equals(this.telefone))
+			if(itens.get(nomeItem).getIsEmprestado())
+				emprestimos.get(new EmprestimoId(nomeDono, telefoneDono,
+					nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo)).setDataDevolucao(dataDevolucao);
+			
 	}
 
 }

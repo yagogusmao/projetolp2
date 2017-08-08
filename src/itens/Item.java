@@ -1,8 +1,10 @@
 package itens;
 
 public abstract class Item {
+	
 	protected double preco;
 	protected String nome;
+	protected boolean isEmprestado;
 	
 	private void validePreco(double preco){
 		if (preco < 0)
@@ -20,6 +22,7 @@ public abstract class Item {
 		
 		this.preco = preco;
 		this.nome = nome;
+		this.isEmprestado = false;
 	}
 
 	public double getPreco() {
@@ -60,5 +63,13 @@ public abstract class Item {
 		else
 			throw new IllegalArgumentException("Argumento invalido");
 	}
+	
+	public boolean getIsEmprestado() {
+		return isEmprestado;
+	}
 
+	public void setIsEmprestado(boolean emprestimo){
+		this.isEmprestado = emprestimo;
+	}
+	
 }

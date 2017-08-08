@@ -71,7 +71,21 @@ public class Facade {
 		this.controladorDeUsuarios.atualizarItem(nome, telefone, nomeItem, atributo, valor);
 	}
 
+	public void registrarEmprestimo(String nomeDono, String telefoneDono, String nomeRequerente, String telefoneRequerente, String nomeItem, 
+			String dataEmprestimo, int periodo){
+		this.controladorDeUsuarios.registrarEmprestimo(nomeDono, telefoneDono, nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo, periodo);
+	}
+	
+	public void devolverItem(String nomeDono, String telefoneDono, String nomeRequerente, String telefoneRequerente, String nomeItem, 
+			String dataEmprestimo, String dataDevolucao){
+		this.controladorDeUsuarios.devolverItem(nomeDono, telefoneDono, nomeRequerente, telefoneRequerente, nomeItem, dataEmprestimo, dataDevolucao);
+	}
+	
+	
 	public void fecharSistema() {
 
 	}
+	
+	
+	
 }
