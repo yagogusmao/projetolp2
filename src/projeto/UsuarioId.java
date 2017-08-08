@@ -3,7 +3,7 @@ package projeto;
 /**
  * Identificador para usuario
  * 
- * @author Felipe Mota
+ * @author Felipe Mota, Yago Gusmao 
  */
 public class UsuarioId {
 
